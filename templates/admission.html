@@ -1,0 +1,204 @@
+{% extends "base.html" %}
+
+{% block title %}Admission Form{% endblock %}
+
+{% block content %}
+<div class="container mt-4">
+    <h1 class="text-center mb-4">Online Admission Form</h1>
+
+    <div class="row justify-content-center">
+        <div class="col-md-8">
+            <div class="card">
+                <div class="card-body">
+
+                    <form method="POST" action="{{ url_for('admission') }}" enctype="multipart/form-data">
+
+                        <!-- Personal Details -->
+                        <h5 class="mb-3">Personal Details</h5>
+
+                        <div class="row mb-3">
+                            <div class="col-md-6">
+                                <label class="form-label">Full Name *</label>
+                                <input type="text" class="form-control" id="full_name" name="full_name" required>
+                                <small id="fullNameError" class="text-danger"></small>
+                            </div>
+
+                            <div class="col-md-6">
+                                <label class="form-label">Age *</label>
+                                <input type="number" class="form-control" id="age" name="age" min="15" max="60" required>
+                                <small id="ageError" class="text-danger"></small>
+                            </div>
+                        </div>
+
+                        <div class="row mb-3">
+                            <div class="col-md-6">
+                                <label class="form-label">Father's Name *</label>
+                                <input type="text" class="form-control" id="father_name" name="father_name" required>
+                                <small id="fatherNameError" class="text-danger"></small>
+                            </div>
+
+                            <div class="col-md-6">
+                                <label class="form-label">Mother's Name</label>
+                                <input type="text" class="form-control" id="mother_name" name="mother_name">
+                                <small id="motherNameError" class="text-danger"></small>
+                            </div>
+                        </div>
+
+                        <div class="row mb-3">
+                            <div class="col-md-6">
+                                <label class="form-label">Gender *</label>
+                                <select class="form-select" name="gender" required>
+                                    <option value="">Select Gender</option>
+                                    <option>Male</option>
+                                    <option>Female</option>
+                                    <option>Other</option>
+                                </select>
+                            </div>
+
+                            <div class="col-md-6">
+                                <label class="form-label">Caste *</label>
+                                <select class="form-select" name="caste" required>
+                                    <option value="">Select Caste</option>
+                                    <option>General</option>
+                                    <option>OBC</option>
+                                    <option>SC</option>
+                                    <option>ST</option>
+                                    <option>VJNT</option>
+                                    <option>SBC</option>
+                                    <option>EWS</option>
+                                    <option>Minority</option>
+                                </select>
+                            </div>
+                        </div>
+
+                        <!-- Contact Details -->
+                        <h5 class="mb-3 mt-4">Contact Details</h5>
+
+                        <div class="row mb-3">
+                            <div class="col-md-6">
+                                <label class="form-label">Email *</label>
+                                <input type="email" class="form-control" name="email" required>
+                            </div>
+
+                            <div class="col-md-6">
+                                <label class="form-label">Mobile Number *</label>
+                                <input type="tel" class="form-control" id="mobile" name="mobile" required>
+                                <small id="mobileError" class="text-danger"></small>
+                            </div>
+                        </div>
+
+                        <div class="row mb-3">
+                            <div class="col-md-6">
+                                <label class="form-label">Father's Mobile *</label>
+                                <input type="tel" class="form-control" name="father_mobile" required>
+                            </div>
+
+                            <div class="col-md-6">
+                                <label class="form-label">Aadhaar Number *</label>
+                                <input type="text" class="form-control" id="aadhaar" name="aadhaar" required>
+                                <small id="aadhaarError" class="text-danger"></small>
+                            </div>
+                        </div>
+
+                        <div class="mb-3">
+                            <label class="form-label">Address *</label>
+                            <textarea class="form-control" name="address" rows="3" required></textarea>
+                        </div>
+
+                        <!-- Course Selection -->
+                        <h5 class="mb-3 mt-4">Course Details</h5>
+
+                        <div class="mb-3">
+                            <label class="form-label">Select Course</label>
+                            <select class="form-select" name="course">
+                                <option value="">Select a course</option>
+                                {% for course in courses %}
+                                <option value="{{ course.course_name }}">{{ course.course_name }}</option>
+                                {% endfor %}
+                            </select>
+                        </div>
+
+                        <!-- Educational Documents -->
+                        <h5 class="mb-3 mt-4">Educational Documents</h5>
+                        
+                        <div class="mb-3">
+                            <label for="tenth_marksheet" class="form-label">10th Marksheet *</label>
+                            <input type="file" class="form-control" id="tenth_marksheet" name="tenth_marksheet" accept=".pdf,.jpg,.jpeg,.png" required>
+                            <small class="text-muted">Upload PDF or image (Max 16MB)</small>
+                        </div>
+                        
+                        <div class="mb-3">
+                            <label for="twelfth_marksheet" class="form-label">12th Marksheet</label>
+                            <input type="file" class="form-control" id="twelfth_marksheet" name="twelfth_marksheet" accept=".pdf,.jpg,.jpeg,.png">
+                            <small class="text-muted">Upload PDF or image (Max 16MB)</small>
+                        </div>
+
+                        <hr class="my-4">
+
+                        <div class="form-check mb-3">
+                            <input type="checkbox" class="form-check-input" required>
+                            <label class="form-check-label">
+                                I hereby declare that the information provided is true and correct.
+                            </label>
+                        </div>
+
+                        <button type="submit" class="btn btn-primary w-100">
+                            Submit Application
+                        </button>
+
+                    </form>
+
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+document.addEventListener("DOMContentLoaded", function () {
+
+    function onlyLetters(value) {
+        return /^[a-zA-Z\s]+$/.test(value);
+    }
+
+    function onlyNumbers(value) {
+        return /^[0-9]+$/.test(value);
+    }
+
+    document.getElementById("full_name").addEventListener("input", function () {
+        document.getElementById("fullNameError").innerText =
+            onlyLetters(this.value) ? "" : "Only letters allowed";
+    });
+
+    document.getElementById("father_name").addEventListener("input", function () {
+        document.getElementById("fatherNameError").innerText =
+            onlyLetters(this.value) ? "" : "Only letters allowed";
+    });
+
+    document.getElementById("mother_name").addEventListener("input", function () {
+        document.getElementById("motherNameError").innerText =
+            onlyLetters(this.value) ? "" : "Only letters allowed";
+    });
+
+    document.getElementById("age").addEventListener("input", function () {
+        const age = parseInt(this.value);
+        document.getElementById("ageError").innerText =
+            (age < 15 || age > 60) ? "Age must be between 15 and 60" : "";
+    });
+
+    document.getElementById("aadhaar").addEventListener("input", function () {
+        this.value = this.value.replace(/\D/g, '');
+        document.getElementById("aadhaarError").innerText =
+            this.value.length !== 12 ? "Aadhaar must be 12 digits" : "";
+    });
+
+    document.getElementById("mobile").addEventListener("input", function () {
+        this.value = this.value.replace(/\D/g, '');
+        document.getElementById("mobileError").innerText =
+            this.value.length !== 10 ? "Mobile must be 10 digits" : "";
+    });
+
+});
+</script>
+
+{% endblock %}

@@ -1,0 +1,305 @@
+{% extends "admin/base_admin.html" %}
+
+{% block title %}Manage Feedback{% endblock %}
+
+{% block content %}
+
+<div class="d-flex justify-content-between align-items-center mb-4">
+    <h2>Student Feedback</h2>
+    <div>
+        <input type="text" id="searchInput" class="form-control" placeholder="Search feedback...">
+    </div>
+</div>
+<div class="table-responsive">
+    <table class="table table-hover" id="feedbackTable">
+
+        <thead class="table-light">
+            <tr>
+                <th>#</th>
+                <th>Name</th>
+                <th>Email</th>
+                <th>Mobile</th>
+                <th>Subject</th>
+                <th>Message</th>
+                <th>Date</th>
+                <th>Status</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+
+        <tbody>
+
+            {% for feedback in feedbacks %}
+            <tr>
+
+                <td>{{ loop.index }}</td>
+
+                <td>{{ feedback.name }}</td>
+
+                <td>{{ feedback.email }}</td>
+
+                <td>{{ feedback.mobile or 'N/A' }}</td>
+
+                <td>{{ feedback.subject or 'No Subject' }}</td>
+
+                <td>
+                    <span data-bs-toggle="tooltip" title="{{ feedback.message }}">
+                        {{ feedback.message[:30] }}{% if feedback.message|length > 30 %}...{% endif %}
+                    </span>
+                </td>
+
+                <td>{{ feedback.submitted_at.strftime('%d-%m-%Y') }}</td>
+
+                <td>
+                    <span class="badge 
+{% if feedback.status == 'New' %}
+bg-warning
+{% elif feedback.status == 'Read' %}
+bg-info
+{% else %}
+bg-success
+{% endif %}
+">
+                        {{ feedback.status }}
+                    </span>
+                </td>
+
+                <td>
+
+                    <!-- Status -->
+                    <select class="form-select form-select-sm d-inline-block w-auto"
+                        onchange="updateStatus({{ feedback.id }}, this.value)">
+
+                        <option value="New" {% if feedback.status=='New' %}selected{% endif %}>New</option>
+
+                        <option value="Read" {% if feedback.status=='Read' %}selected{% endif %}>Read</option>
+
+                        <option value="Replied" {% if feedback.status=='Replied' %}selected{% endif %}>Replied
+                        </option>
+
+                    </select>
+
+                    <!-- View Button -->
+
+                    <button class="btn btn-sm btn-primary" data-bs-toggle="modal" data-bs-target="#viewModal" onclick="viewFeedback(
+'{{ feedback.name }}',
+'{{ feedback.email }}',
+'{{ feedback.mobile }}',
+'{{ feedback.subject }}',
+`{{ feedback.message }}`
+)">
+                        <i class="fas fa-eye"></i>
+                    </button>
+
+                    <!-- Delete Button -->
+
+                    <button class="btn btn-sm btn-danger" onclick="confirmDelete({{ feedback.id }})">
+
+                        <i class="fas fa-trash"></i>
+
+                    </button>
+
+                </td>
+
+            </tr>
+
+            {% else %}
+
+            <tr>
+
+                <td colspan="9" class="text-center py-5">
+
+                    <i class="fas fa-comments fa-4x text-muted mb-3"></i>
+
+                    <p class="text-muted">No feedback found</p>
+
+                </td>
+
+            </tr>
+
+            {% endfor %}
+
+        </tbody>
+    </table>
+</div>
+</div>
+
+
+<!-- DELETE MODAL -->
+
+<div class="modal fade" id="deleteModal" tabindex="-1">
+
+    <div class="modal-dialog">
+
+        <div class="modal-content">
+
+            <div class="modal-header bg-danger text-white">
+
+                <h5 class="modal-title">
+                    <i class="fas fa-exclamation-triangle me-2"></i>
+                    Confirm Delete
+                </h5>
+
+                <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
+
+            </div>
+
+            <div class="modal-body">
+
+                <p>Are you sure you want to delete this feedback?</p>
+
+                <p class="text-danger mb-0"><small>This action cannot be undone.</small></p>
+
+            </div>
+
+            <div class="modal-footer">
+
+                <button class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+
+                <a href="#" id="confirmDeleteBtn" class="btn btn-danger">Delete</a>
+
+            </div>
+
+        </div>
+    </div>
+</div>
+
+
+<!-- VIEW FEEDBACK MODAL -->
+
+<div class="modal fade" id="viewModal" tabindex="-1">
+
+    <div class="modal-dialog">
+
+        <div class="modal-content">
+
+            <div class="modal-header bg-primary text-white">
+
+                <h5 class="modal-title">
+
+                    <i class="fas fa-eye me-2"></i>
+
+                    Feedback Details
+
+                </h5>
+
+                <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
+
+            </div>
+
+            <div class="modal-body">
+
+                <p><strong>Name :</strong> <span id="v_name"></span></p>
+
+                <p><strong>Email :</strong> <span id="v_email"></span></p>
+
+                <p><strong>Mobile :</strong> <span id="v_mobile"></span></p>
+
+                <p><strong>Subject :</strong> <span id="v_subject"></span></p>
+
+                <p><strong>Message :</strong></p>
+
+                <div class="border p-3 bg-light rounded" id="v_message"></div>
+
+            </div>
+
+        </div>
+    </div>
+</div>
+
+{% endblock %}
+
+
+{% block scripts %}
+
+<script>
+
+    /* SEARCH */
+
+    document.getElementById('searchInput').addEventListener('keyup', function () {
+
+        let value = this.value.toLowerCase()
+
+        let rows = document.querySelectorAll("#feedbackTable tbody tr")
+
+        rows.forEach(row => {
+
+            let text = row.innerText.toLowerCase()
+
+            row.style.display = text.includes(value) ? "" : "none"
+
+        })
+
+    })
+
+
+    /* STATUS UPDATE */
+
+    function updateStatus(id, status) {
+
+        fetch(`/admin/feedback/update/${id}`, {
+
+            method: "POST",
+
+            headers: {
+                'Content-Type': 'application/x-www-form-urlencoded'
+            },
+
+            body: 'status=' + status
+
+        }).then(res => {
+
+            if (res.ok) {
+
+                location.reload()
+
+            }
+
+        })
+
+    }
+
+
+    /* VIEW FEEDBACK */
+
+    function viewFeedback(name, email, mobile, subject, message) {
+
+        document.getElementById("v_name").innerText = name
+
+        document.getElementById("v_email").innerText = email
+
+        document.getElementById("v_mobile").innerText = mobile
+
+        document.getElementById("v_subject").innerText = subject
+
+        document.getElementById("v_message").innerText = message
+
+    }
+
+
+    /* DELETE */
+
+    function confirmDelete(id) {
+
+        let url = "{{ url_for('delete_feedback', id=0) }}".replace("0", id)
+
+        document.getElementById("confirmDeleteBtn").href = url
+
+        new bootstrap.Modal(document.getElementById("deleteModal")).show()
+
+    }
+
+
+    /* TOOLTIP */
+
+    var tooltipTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="tooltip"]'))
+
+    tooltipTriggerList.map(function (el) {
+
+        return new bootstrap.Tooltip(el)
+
+    })
+
+</script>
+
+{% endblock %}

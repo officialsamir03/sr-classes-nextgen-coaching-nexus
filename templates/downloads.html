@@ -1,0 +1,45 @@
+{% extends "base.html" %}
+
+{% block title %}Downloads{% endblock %}
+
+{% block content %}
+<div class="container mt-4">
+    <h1 class="text-center mb-4">Study Materials & Downloads</h1>
+    
+    <div class="row">
+        {% for download in downloads %}
+        <div class="col-md-6 mb-4">
+            <div class="card">
+                <div class="card-body">
+                    <div class="d-flex align-items-center">
+                        <div class="flex-shrink-0">
+                            {% if download.file_type == 'pdf' %}
+                                <i class="fas fa-file-pdf fa-3x text-danger"></i>
+                            {% elif download.file_type in ['doc', 'docx'] %}
+                                <i class="fas fa-file-word fa-3x text-primary"></i>
+                            {% else %}
+                                <i class="fas fa-file fa-3x text-secondary"></i>
+                            {% endif %}
+                        </div>
+                        <div class="flex-grow-1 ms-3">
+                            <h5 class="card-title">{{ download.title }}</h5>
+                            <p class="card-text">{{ download.description }}</p>
+                            <small class="text-muted">Uploaded: {{ download.uploaded_at.strftime('%d-%m-%Y') }}</small>
+                        </div>
+                    </div>
+                </div>
+                <div class="card-footer">
+                    <a href="{{ url_for('static', filename=download.file_path) }}" class="btn btn-primary" download>
+                        <i class="fas fa-download"></i> Download
+                    </a>
+                </div>
+            </div>
+        </div>
+        {% else %}
+        <div class="col-12">
+            <p class="text-center">No downloads available at the moment.</p>
+        </div>
+        {% endfor %}
+    </div>
+</div>
+{% endblock %}

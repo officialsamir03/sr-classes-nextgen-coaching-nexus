@@ -1,0 +1,41 @@
+{% extends "base.html" %}
+
+{% block title %}Our Programs{% endblock %}
+
+{% block content %}
+<div class="container mt-4">
+    <h1 class="text-center mb-4">Our Courses</h1>
+    
+    <div class="row">
+        {% for course in courses %}
+        <div class="col-md-4 mb-4">
+            <div class="card h-100">
+                <div class="card-header bg-primary text-white">
+                    <h5 class="card-title mb-0">{{ course.course_name }}</h5>
+                </div>
+                <div class="card-body">
+                    <p class="card-text">{{ course.description }}</p>
+                    <ul class="list-unstyled">
+                        <li><i class="fas fa-clock text-primary"></i> <strong>Duration:</strong> {{ course.duration }}</li>
+                        <li><i class="fas fa-rupee-sign text-primary"></i> <strong>Fees:</strong> ₹{{ course.fees }}</li>
+                    </ul>
+                    {% if course.syllabus %}
+                    <button class="btn btn-outline-primary btn-sm" type="button" data-bs-toggle="collapse" data-bs-target="#syllabus{{ course.id }}">
+                        View Syllabus
+                    </button>
+                    <div class="collapse mt-2" id="syllabus{{ course.id }}">
+                        <div class="card card-body">
+                            {{ course.syllabus }}
+                        </div>
+                    </div>
+                    {% endif %}
+                </div>
+                <div class="card-footer">
+                    <a href="{{ url_for('admission') }}" class="btn btn-primary w-100">Enroll Now</a>
+                </div>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+</div>
+{% endblock %}

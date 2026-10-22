@@ -1,0 +1,115 @@
+{% extends "base.html" %}
+
+{% block title %}Contact Us{% endblock %}
+
+{% block content %}
+
+<section class="contact-section py-5">
+    <div class="container">
+        <div class="row">
+
+            <!-- Contact Form -->
+            <div class="col-md-6 mb-6">
+                <div class="card shadow-lg border-0 rounded-4">
+                    <div class="card-body p-4">
+                        <h3 class="mb-4 text-primary fw-bold">Send Us a Message</h3>
+
+                        <form method="POST" action="/contact">
+                            <div class="mb-3">
+                                <input type="text" name="name" class="form-control" placeholder="Your Name" required>
+                            </div>
+
+                            <div class="mb-3">
+                                <input type="email" name="email" class="form-control" placeholder="Your Email" required>
+                            </div>
+
+                            <div class="mb-3">
+                                <input type="text" name="mobile" class="form-control" placeholder="Your Mobile">
+                            </div>
+
+                            <div class="mb-3">
+                                <select name="subject" class="form-control">
+                                    <option value="">Select Course</option>
+                                    <option value="MS-CIT">MS-CIT</option>
+                                    <option value="Tally ERP 9">Tally ERP 9</option>
+                                    <option value="C Programming">C Programming</option>
+                                    <option value="C++ Programming">C++ Programming</option>
+                                    <option value="Java Programming">Java Programming</option>
+                                    <option value="Python Programming">Python Programming</option>
+                                    <option value="English Communication">English Communication</option>
+                                </select>
+                            </div>
+                            <div class="mb-3">
+                                <textarea name="message" rows="3" class="form-control" placeholder="Your Message"
+                                    required></textarea>
+                            </div>
+
+                            <button type="submit" class="btn btn-primary w-100">Send Message</button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Contact Info -->
+            <div class="col-md-6 mb-4">
+                <div class="card shadow-lg border-0 rounded-4">
+                    <div class="card-body p-4">
+                        <h3 class="mb-4 text-primary fw-bold">Get in Touch</h3>
+
+                        <!-- Address -->
+                        <div class="mb-4">
+                            <h6><i class="fas fa-map-marker-alt text-primary me-2"></i> Address</h6>
+                            <p>
+                                <a href="https://www.google.com/maps?q=Nanded+431601" target="_blank"
+                                    class="text-decoration-none text-dark">
+                                    SR Classes,<br>
+                                    Near Khan 4 Hotel,<br>
+                                    Degloor Naka,<br>
+                                    Nanded - 431601
+                                </a>
+                            </p>
+                        </div>
+
+                        <!-- Phone -->
+                        <div class="mb-4">
+                            <h6><i class="fas fa-phone text-primary me-2"></i> Phone</h6>
+                            <p>
+                                <a href="tel:+917499175313" class="text-decoration-none text-dark">
+                                    +91 74991 75313
+                                </a><br>
+                                <a href="tel:+919922168455" class="text-decoration-none text-dark">
+                                    +91 99221 68455
+                                </a>
+                            </p>
+                        </div>
+
+                        <!-- Email -->
+                        <div class="mb-4">
+                            <h6><i class="fas fa-envelope text-primary me-2"></i> Email</h6>
+                            <p>
+                                <a href="mailto:info@srinstitutes.com" class="text-decoration-none text-dark">
+                                    info@srinstitutes.com
+                                </a><br>
+                                <a href="mailto:smroffi03@gmail.com" class="text-decoration-none text-dark">
+                                    smroffi03@gmail.com
+                                </a>
+                            </p>
+                        </div>
+
+                        <!-- Working Hours -->
+                        <div class="mb-4">
+                            <h6><i class="fas fa-clock text-primary me-2"></i> Working Hours</h6>
+                            <p>
+                                Monday - Saturday: 9:00 AM - 8:00 PM<br>
+                                Sunday: 10:00 AM - 2:00 PM
+                            </p>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+{% endblock %}

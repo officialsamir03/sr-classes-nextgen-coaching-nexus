@@ -1,0 +1,170 @@
+{% extends "base.html" %}
+
+{% block title %}Home - SR Classes{% endblock %}
+
+{% block content %}
+<!-- Hero Section -->
+<section class="bg-primary text-white py-5">
+    <div class="container">
+        <div class="row align-items-center">
+            <div class="col-md-6">
+                <h1 class="display-4 fw-bold">Welcome to SR Classes</h1>
+                <p class="lead">Your Gateway to Success in Computer Education</p>
+                <p class="mb-4">We provide quality computer education with industry-relevant curriculum and experienced faculty.</p>
+                <a href="{{ url_for('admission') }}" class="btn btn-light btn-lg me-2">Apply Now</a>
+                <a href="{{ url_for('programs') }}" class="btn btn-outline-light btn-lg">View Courses</a>
+            </div>
+            <div class="col-md-6">
+                <img src="https://images.unsplash.com/photo-1522202176988-66273c2fd55f?ixlib=rb-4.0.3&auto=format&fit=crop&w=1471&q=80" 
+                     alt="Students learning" 
+                     class="img-fluid rounded shadow-lg">
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Features Section -->
+<div class="container my-5">
+    <div class="row text-center">
+        <div class="col-md-3 mb-4">
+            <div class="card h-100 border-0 shadow-sm">
+                <div class="card-body">
+                    <i class="fas fa-chalkboard-teacher fa-3x text-primary mb-3"></i>
+                    <h5>Expert Faculty</h5>
+                    <p class="text-muted">Learn from industry experts with years of experience</p>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-3 mb-4">
+            <div class="card h-100 border-0 shadow-sm">
+                <div class="card-body">
+                    <i class="fas fa-laptop-code fa-3x text-primary mb-3"></i>
+                    <h5>Practical Training</h5>
+                    <p class="text-muted">Hands-on experience with real-world projects</p>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-3 mb-4">
+            <div class="card h-100 border-0 shadow-sm">
+                <div class="card-body">
+                    <i class="fas fa-clock fa-3x text-primary mb-3"></i>
+                    <h5>Flexible Timing</h5>
+                    <p class="text-muted">Morning and evening batches available</p>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-3 mb-4">
+            <div class="card h-100 border-0 shadow-sm">
+                <div class="card-body">
+                    <i class="fas fa-certificate fa-3x text-primary mb-3"></i>
+                    <h5>Certification</h5>
+                    <p class="text-muted">Get recognized certificates upon completion</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Popular Courses -->
+<div class="container my-5">
+    <h2 class="text-center mb-4">Our Popular Courses</h2>
+    <div class="row">
+        <div class="col-md-4 mb-4">
+            <div class="card h-100 shadow-sm">
+                <img src="https://images.unsplash.com/photo-1461749280684-dccba630e2f6?ixlib=rb-4.0.3&auto=format&fit=crop&w=1469&q=80" 
+                     class="card-img-top" alt="MS-CIT" style="height: 200px; object-fit: cover;">
+                <div class="card-body">
+                    <h5 class="card-title">MS-CIT</h5>
+                    <p class="card-text text-muted">Maharashtra State Certificate in Information Technology</p>
+                    <a href="{{ url_for('programs') }}" class="btn btn-primary">Learn More</a>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-4 mb-4">
+            <div class="card h-100 shadow-sm">
+                <img src="https://images.unsplash.com/photo-1555066931-4365d14bab8c?ixlib=rb-4.0.3&auto=format&fit=crop&w=1470&q=80" 
+                     class="card-img-top" alt="Programming" style="height: 200px; object-fit: cover;">
+                <div class="card-body">
+                    <h5 class="card-title">Programming Languages</h5>
+                    <p class="card-text text-muted">C, C++, Java, Python - Complete programming courses</p>
+                    <a href="{{ url_for('programs') }}" class="btn btn-primary">Learn More</a>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-4 mb-4">
+            <div class="card h-100 shadow-sm">
+                <img src="https://images.unsplash.com/photo-1554224155-8d04cb21cd6c?ixlib=rb-4.0.3&auto=format&fit=crop&w=1470&q=80" 
+                     class="card-img-top" alt="Tally" style="height: 200px; object-fit: cover;">
+                <div class="card-body">
+                    <h5 class="card-title">Tally ERP 9</h5>
+                    <p class="card-text text-muted">Complete accounting and inventory management</p>
+                    <a href="{{ url_for('programs') }}" class="btn btn-primary">Learn More</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Why Choose Us -->
+<div class="bg-light py-5">
+    <div class="container">
+        <h2 class="text-center mb-4">Why Choose SR Classes?</h2>
+        <div class="row">
+            <div class="col-md-6 mb-4">
+                <div class="d-flex">
+                    <div class="flex-shrink-0">
+                        <i class="fas fa-check-circle fa-2x text-primary"></i>
+                    </div>
+                    <div class="flex-grow-1 ms-3">
+                        <h5> 10+ Years of Excellence</h5>
+                        <p class="text-muted">Trusted by thousands of students since 2015</p>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-6 mb-4">
+                <div class="d-flex">
+                    <div class="flex-shrink-0">
+                        <i class="fas fa-check-circle fa-2x text-primary"></i>
+                    </div>
+                    <div class="flex-grow-1 ms-3">
+                        <h5>Expert Faculty</h5>
+                        <p class="text-muted">Learn from experienced and qualified teachers</p>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-6 mb-4">
+                <div class="d-flex">
+                    <div class="flex-shrink-0">
+                        <i class="fas fa-check-circle fa-2x text-primary"></i>
+                    </div>
+                    <div class="flex-grow-1 ms-3">
+                        <h5>Modern Infrastructure</h5>
+                        <p class="text-muted">Well-equipped labs with latest software</p>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-6 mb-4">
+                <div class="d-flex">
+                    <div class="flex-shrink-0">
+                        <i class="fas fa-check-circle fa-2x text-primary"></i>
+                    </div>
+                    <div class="flex-grow-1 ms-3">
+                        <h5>Placement Assistance</h5>
+                        <p class="text-muted">Resume building and interview preparation</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Call to Action -->
+<section class="bg-primary text-white py-5">
+    <div class="container text-center">
+        <h2 class="mb-4">Ready to Start Your Journey?</h2>
+        <p class="lead mb-4">Join SR Classes today and take the first step towards a successful career in IT.</p>
+        <a href="{{ url_for('admission') }}" class="btn btn-light btn-lg me-2">Apply Now</a>
+        <a href="{{ url_for('contact') }}" class="btn btn-outline-light btn-lg">Contact Us</a>
+    </div>
+</section>
+{% endblock %}

@@ -1,0 +1,204 @@
+{% extends "admin/base_admin.html" %}
+{% block title %}Add Student{% endblock %}
+
+{% block content %}
+<div class="container mt-4">
+<h3>Add New Student</h3>  
+
+<form method="POST" enctype="multipart/form-data" id="addStudentForm">
+
+<div class="row">
+  <div class="col-md-6 mb-3">
+    <label>Full Name</label>
+    <input type="text" id="full_name" name="full_name" class="form-control" required>
+    <small id="fullNameError" class="text-danger"></small>
+  </div>
+
+  <div class="col-md-6 mb-3">
+    <label>Age</label>
+    <input type="number" id="age" name="age" class="form-control" required>
+    <small id="ageError" class="text-danger"></small>
+  </div>
+</div>
+
+<div class="row">
+  <div class="col-md-6 mb-3">
+    <label>Father Name</label>
+    <input type="text" id="father_name" name="father_name" class="form-control" required>
+    <small id="fatherNameError" class="text-danger"></small>
+  </div>
+
+  <div class="col-md-6 mb-3">
+    <label>Mother Name</label>
+    <input type="text" id="mother_name" name="mother_name" class="form-control">
+    <small id="motherNameError" class="text-danger"></small>
+  </div>
+</div>
+
+<div class="row">
+  <div class="col-md-6 mb-3">
+    <label>Gender</label>
+    <select name="gender" class="form-select" required>
+      <option value="">--Select Gender--</option>
+      <option value="Male">Male</option>
+      <option value="Female">Female</option>
+      <option value="Other">Other</option>
+    </select>
+  </div>
+
+  <div class="col-md-6 mb-3">
+    <label>Caste</label>
+    <select name="caste" class="form-select" required>
+      <option value="">--Select Caste--</option>
+      <option value="General">General</option>
+      <option value="OBC">OBC</option>
+      <option value="SC">SC</option>
+      <option value="ST">ST</option>
+      <option value="VJNT">VJNT</option>
+      <option value="SBC">SBC</option>
+      <option value="EWS">EWS</option>
+      <option value="Minority">Minority</option>
+    </select>
+  </div>
+</div>
+
+<div class="row">
+  <div class="col-md-6 mb-3">
+    <label>Email</label>
+    <input type="email" id="email" name="email" class="form-control" required>
+    <small id="emailError" class="text-danger"></small>
+  </div>
+
+  <div class="col-md-6 mb-3">
+    <label>Mobile</label>
+    <input type="text" id="mobile" name="mobile" class="form-control" required>
+    <small id="mobileError" class="text-danger"></small>
+  </div>
+</div>
+
+<div class="row">
+  <div class="col-md-6 mb-3">
+    <label>Father Mobile</label>
+    <input type="text" id="father_mobile" name="father_mobile" class="form-control" required>
+    <small id="fatherMobileError" class="text-danger"></small>
+  </div>
+
+  <div class="col-md-6 mb-3">
+    <label>Aadhaar</label>
+    <input type="text" id="aadhaar" name="aadhaar" class="form-control" required>
+    <small id="aadhaarError" class="text-danger"></small>
+  </div>
+</div>
+
+<div class="mb-3">
+  <label>Address</label>
+  <textarea name="address" class="form-control" rows="3" required></textarea>
+</div>
+
+<div class="mb-3">
+  <label>Course</label>
+  <select name="course" class="form-control" required>
+    <option value="">Select Course</option>
+    <option value="MS-CIT">MS-CIT</option>
+    <option value="Tally ERP 9">Tally ERP 9</option>
+    <option value="C Programming">C Programming</option>
+    <option value="C++ Programming">C++ Programming</option>
+    <option value="Java Programming">Java Programming</option>
+    <option value="Python Programming">Python Programming</option>
+    <option value="English Communication">English Communication</option>
+  </select>
+</div>
+
+<div class="row">
+  <div class="col-md-6 mb-3">
+    <label>10th Marksheet</label>
+    <input type="file" name="tenth_marksheet" class="form-control" required>
+  </div>
+
+  <div class="col-md-6 mb-3">
+    <label>12th Marksheet</label>
+    <input type="file" name="twelfth_marksheet" class="form-control">
+  </div>
+</div>
+
+<div class="mb-3">
+  <label>Status</label>
+  <select name="status" class="form-select" required>
+    <option value="Pending">Pending</option>
+    <option value="Approved">Approved</option>
+  </select>
+</div>
+
+<button type="submit" class="btn btn-success">Add Student</button>
+<a href="{{ url_for('admin_admissions') }}" class="btn btn-secondary">Cancel</a>
+
+</form>
+</div>
+
+<!-- JS Validations -->
+<script>
+document.addEventListener("DOMContentLoaded", function () {
+  
+function onlyLetters(value) {
+  return /^[a-zA-Z\s]+$/.test(value);
+}
+
+function onlyNumbers(value) {
+  return /^[0-9]+$/.test(value);
+}
+
+function onlyDigits(value, len) {
+  return new RegExp(`^\\d{${len}}$`).test(value);
+}
+
+// Name Fields
+["full_name","father_name","mother_name"].forEach(id => {
+  if(document.getElementById(id)) {
+    document.getElementById(id).addEventListener("input", function() {
+      const errId = id+"Error";
+      document.getElementById(errId).innerText = onlyLetters(this.value) ? "" : "Only letters allowed";
+    });
+  }
+});
+
+// Age
+document.getElementById("age").addEventListener("input", function () {
+  const age = parseInt(this.value);
+  document.getElementById("ageError").innerText = (age < 15 || age > 60) ? "Age must be between 15 and 60" : "";
+});
+
+// Mobile & Aadhaar
+document.getElementById("mobile").addEventListener("input", function () {
+  this.value = this.value.replace(/\D/g, '');
+  document.getElementById("mobileError").innerText = this.value.length !== 10 ? "Mobile must be 10 digits" : "";
+});
+document.getElementById("father_mobile").addEventListener("input", function () {
+  this.value = this.value.replace(/\D/g, '');
+  document.getElementById("fatherMobileError").innerText = this.value.length !== 10 ? "Father Mobile must be 10 digits" : "";
+});
+document.getElementById("aadhaar").addEventListener("input", function () {
+  this.value = this.value.replace(/\D/g, '');
+  document.getElementById("aadhaarError").innerText = this.value.length !== 12 ? "Aadhaar must be 12 digits" : "";
+});
+
+// Email validation
+document.getElementById("email").addEventListener("input", function() {
+  const pattern = /^[a-zA-Z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,}$/;
+  document.getElementById("emailError").innerText = pattern.test(this.value) ? "" : "Invalid email";
+});
+
+// Prevent submit if any error
+document.getElementById("addStudentForm").addEventListener("submit", function(e){
+  const errors = document.querySelectorAll(".text-danger");
+  for(let err of errors){
+    if(err.innerText !== ""){
+      e.preventDefault();
+      alert("Please fix errors before submitting the form.");
+      return false;
+    }
+  }
+});
+  
+});
+</script>
+{% endblock %}

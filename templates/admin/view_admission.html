@@ -1,0 +1,139 @@
+{% extends "admin/base_admin.html" %}
+
+{% block title %}View Admission{% endblock %}
+
+{% block content %}
+<div class="d-flex justify-content-between align-items-center mb-4">
+    <h2>Admission Details</h2>
+    <a href="{{ url_for('admin_admissions') }}" class="btn btn-secondary">
+        <i class="fas fa-arrow-left"></i> Back
+    </a>
+</div>
+
+<div class="row">
+    <div class="col-md-8">
+        <div class="card mb-4">
+            <div class="card-header bg-white">
+                <h5 class="mb-0">Personal Information</h5>
+            </div>
+    <div class="card-body">
+                <div class="row">
+                    <div class="col-md-6 mb-3">
+                        <label class="fw-bold">Full Name:</label>
+                        <p>{{ admission.full_name }}</p>
+                    </div>
+                    <div class="col-md-6 mb-3">
+                        <label class="fw-bold">Age:</label>
+                        <p>{{ admission.age }}</p>
+                    </div>
+                    <div class="col-md-6 mb-3">
+                        <label class="fw-bold">Father's Name:</label>
+                        <p>{{ admission.father_name }}</p>
+                    </div>
+                    <div class="col-md-6 mb-3">
+                        <label class="fw-bold">Mother's Name:</label>
+                        <p>{{ admission.mother_name }}</p>
+                    </div>
+                    <div class="col-md-6 mb-3">
+                        <label class="fw-bold">Gender:</label>
+                        <p>{{ admission.gender }}</p>
+                    </div>
+                    <div class="col-md-6 mb-3">
+                        <label class="fw-bold">Caste:</label>
+                        <p>{{ admission.caste or 'Not Specified' }}</p>
+                    </div>
+                    <div class="col-md-6 mb-3">
+                        <label class="fw-bold">Aadhaar Number:</label>
+                        <p>{{ admission.aadhaar_number }}</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="card mb-4">
+            <div class="card-header bg-white">
+                <h5 class="mb-0">Contact Information</h5>
+            </div>
+            <div class="card-body">
+                <div class="row">
+                    <div class="col-md-6 mb-3">
+                        <label class="fw-bold">Email:</label>
+                        <p>{{ admission.email }}</p>
+                    </div>
+                    <div class="col-md-6 mb-3">
+                        <label class="fw-bold">Mobile:</label>
+                        <p>{{ admission.mobile }}</p>
+                    </div>
+                    <div class="col-md-6 mb-3">
+                        <label class="fw-bold">Father's Mobile:</label>
+                        <p>{{ admission.father_mobile }}</p>
+                    </div>
+                    <div class="col-12 mb-3">
+                        <label class="fw-bold">Address:</label>
+                        <p>{{ admission.address }}</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="card mb-4">
+            <div class="card-header bg-white">
+                <h5 class="mb-0">Course & Documents</h5>
+            </div>
+            <div class="card-body">
+                <div class="row">
+                    <div class="col-md-6 mb-3">
+                        <label class="fw-bold">Course Applied:</label>
+                        <p>{{ admission.course_applied or 'Not Specified' }}</p>
+                    </div>
+                    <div class="col-md-6 mb-3">
+                        <label class="fw-bold">Applied Date:</label>
+                        <p>{{ admission.applied_at.strftime('%d-%m-%Y %H:%M') }}</p>
+                    </div>
+                    <div class="col-md-6 mb-3">
+                        <label class="fw-bold">10th Marksheet:</label>
+                        {% if admission.tenth_marksheet %}
+                            <a href="{{ url_for('static', filename=admission.tenth_marksheet) }}" class="btn btn-sm btn-primary" target="_blank">
+                                <i class="fas fa-file"></i> View
+                            </a>
+                        {% else %}
+                            <p class="text-muted">Not uploaded</p>
+                        {% endif %}
+                    </div>
+                    <div class="col-md-6 mb-3">
+                        <label class="fw-bold">12th Marksheet:</label>
+                        {% if admission.twelfth_marksheet %}
+                            <a href="{{ url_for('static', filename=admission.twelfth_marksheet) }}" class="btn btn-sm btn-primary" target="_blank">
+                                <i class="fas fa-file"></i> View
+                            </a>
+                        {% else %}
+                            <p class="text-muted">Not uploaded</p>
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <div class="col-md-4">
+        <div class="card">
+            <div class="card-header bg-white">
+                <h5 class="mb-0">Update Status</h5>
+            </div>
+            <div class="card-body">
+                <form method="POST" action="{{ url_for('update_admission_status', id=admission.id) }}">
+                    <div class="mb-3">
+                        <label class="form-label">Current Status</label>
+                        <select class="form-select" name="status">
+                            <option value="Pending" {% if admission.status == 'Pending' %}selected{% endif %}>Pending</option>
+                            <option value="Approved" {% if admission.status == 'Approved' %}selected{% endif %}>Approved</option>
+                            <option value="Rejected" {% if admission.status == 'Rejected' %}selected{% endif %}>Rejected</option>
+                        </select>
+                    </div>
+                    <button type="submit" class="btn btn-primary w-100">Update Status</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

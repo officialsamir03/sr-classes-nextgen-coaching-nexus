@@ -1,0 +1,129 @@
+{% extends "admin/base_admin.html" %}
+{% block title %}Edit Admission{% endblock %}
+
+{% block content %}
+<div class="container mt-4">
+    <h3>Edit Admission</h3>
+
+    <div class="container mt-4">
+        <h3>Edit Admission</h3>
+
+        <form method="POST">
+
+            <!-- Full Name and Age -->
+            <div class="row">
+                <div class="col-md-6 mb-3">
+                    <label>Full Name</label>
+                    <input type="text" name="full_name" class="form-control" value="{{ admission.full_name }}" required
+                        pattern="[A-Za-z ]{2,30}" title="Only letters and spaces, 2-30 characters">
+                </div>
+
+                <div class="col-md-6 mb-3">
+                    <label>Age</label>
+                    <input type="number" name="age" class="form-control" value="{{ admission.age }}" required min="5"
+                        max="60" title="Enter valid age between 15 and 60">
+                </div>
+            </div>
+
+            <!-- Father & Mother Name -->
+            <div class="row">
+                <div class="col-md-6 mb-3">
+                    <label>Father Name</label>
+                    <input type="text" name="father_name" class="form-control" value="{{ admission.father_name }}"
+                        required pattern="[A-Za-z ]{2,30}" title="Only letters and spaces, 2-30 characters">
+                </div>
+
+                <div class="col-md-6 mb-3">
+                    <label>Mother Name</label>
+                    <input type="text" name="mother_name" class="form-control" value="{{ admission.mother_name }}"
+                        pattern="[A-Za-z ]{2,35}" title="Only letters and spaces, 2-35 characters">
+                </div>
+            </div>
+
+            <!-- Gender & Caste -->
+            <div class="row">
+                <div class="col-md-6 mb-3">
+                    <label>Gender</label>
+                    <select name="gender" class="form-select" required>
+                        <option value="Male" {% if admission.gender=='Male' %}selected{% endif %}>Male</option>
+                        <option value="Female" {% if admission.gender=='Female' %}selected{% endif %}>Female</option>
+                        <option value="Other" {% if admission.gender=='Other' %}selected{% endif %}>Other</option>
+                    </select>
+                </div>
+
+                <div class="col-md-6 mb-3">
+                    <label>Caste</label>
+                    <select name="caste" class="form-select" required>
+                        <option value="General" {% if admission.caste=='General' %}selected{% endif %}>General</option>
+                        <option value="OBC" {% if admission.caste=='OBC' %}selected{% endif %}>OBC</option>
+                        <option value="SC" {% if admission.caste=='SC' %}selected{% endif %}>SC</option>
+                        <option value="ST" {% if admission.caste=='ST' %}selected{% endif %}>ST</option>
+                        <option value="VJNT" {% if admission.caste=='VJNT' %}selected{% endif %}>VJNT</option>
+                        <option value="SBC" {% if admission.caste=='SBC' %}selected{% endif %}>SBC</option>
+                        <option value="EWS" {% if admission.caste=='EWS' %}selected{% endif %}>EWS</option>
+                        <option value="Minority" {% if admission.caste=='Minority' %}selected{% endif %}>Minority
+                        </option>
+                    </select>
+                </div>
+            </div>
+
+            <!-- Email & Mobile -->
+            <div class="row">
+                <div class="col-md-6 mb-3">
+                    <label>Email</label>
+                    <input type="email" name="email" class="form-control" value="{{ admission.email }}" required
+                        pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,}$" title="Enter a valid email address">
+                </div>
+
+                <div class="col-md-6 mb-3">
+                    <label>Mobile</label>
+                    <input type="text" name="mobile" class="form-control" value="{{ admission.mobile }}" required
+                        pattern="\d{10}" maxlength="10" title="Enter 10 digit mobile number">
+                </div>
+            </div>
+
+            <!-- Father Mobile & Aadhaar -->
+            <div class="row">
+                <div class="col-md-6 mb-3">
+                    <label>Father Mobile</label>
+                    <input type="text" name="father_mobile" class="form-control" value="{{ admission.father_mobile }}"
+                        required pattern="\d{10}" maxlength="10" title="Enter 10 digit mobile number">
+                </div>
+
+                <div class="col-md-6 mb-3">
+                    <label>Aadhaar</label>
+                    <input type="text" name="aadhaar" class="form-control" value="{{ admission.aadhaar }}" required
+                        pattern="\d{12}" maxlength="12" title="Aadhaar number must be exactly 12 digits">
+                </div>
+            </div>
+
+            <!-- Address -->
+            <div class="mb-3">
+                <label>Address</label>
+                <textarea name="address" class="form-control" rows="3" required minlength="5"
+                    title="Address must be at least 5 characters">{{ admission.address }}</textarea>
+            </div>
+
+            <!-- Course -->
+            <div class="mb-3">
+                <label>Course</label>
+                <input type="text" name="course" class="form-control" value="{{ admission.course_applied }}">
+            </div>
+
+
+            <!-- Status -->
+            <div class="mb-3">
+                <label>Status</label>
+                <select name="status" class="form-select" required>
+                    <option value="Pending" {% if admission.status=='Pending' %}selected{% endif %}>Pending</option>
+                    <option value="Approved" {% if admission.status=='Approved' %}selected{% endif %}>Approved</option>
+                    <option value="Rejected" {% if admission.status=='Rejected' %}selected{% endif %}>Rejected</option>
+                </select>
+            </div>
+
+            <button type="submit" class="btn btn-warning">Update</button>
+            <a href="{{ url_for('admin_admissions') }}" class="btn btn-secondary">Cancel</a>
+
+        </form>
+    </div>
+    {% endblock %}
